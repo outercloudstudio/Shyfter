@@ -15,17 +15,17 @@ import { loginWithSavedAccount } from '@libs/Firebase'
 import { loadUser } from '@/libs/State'
 
 const router = createRouter({
-	history: createWebHistory(),
-	routes: [
-		{ path: '/', component: Welcome },
-		{ path: '/login', component: Login },
-		{ path: '/register', component: Register },
-		{ path: '/dashboard', component: Dashboard },
-		{ path: '/trades', component: Trades },
-		{ path: '/calendar', component: Calendar },
-		{ path: '/admin', component: Admin },
-		{ path: '/account', component: Account },
-	],
+    history: createWebHistory(),
+    routes: [
+        { path: '/', component: Welcome },
+        { path: '/login', component: Login },
+        { path: '/register', component: Register },
+        { path: '/dashboard', component: Dashboard },
+        { path: '/trades', component: Trades },
+        { path: '/calendar', component: Calendar },
+        { path: '/admin', component: Admin },
+        { path: '/account', component: Account },
+    ],
 })
 
 await loginWithSavedAccount()
