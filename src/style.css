@@ -9,6 +9,7 @@
 	--accent-1: #FFBF00;
 	--accent-2: #FF6B00;
 	--accent-shadow: #FF6B0055;
+	--accent-gradient: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
 	--secondary: #6A7383;
 	--element: #181819;
 	--element-border: #2B2F36;
@@ -127,6 +128,28 @@ button {
 	border-radius: 0.4rem;
 
 	margin: 0rem;
+
+	transition: color 150ms ease, background 150ms ease, border 150ms ease, filter 150ms ease;
+
+	border: solid 2px transparent;
+
+	box-sizing: content-box;
+}
+
+button:hover {
+	color: var(--primary);
+	background: var(--element);
+	border: solid 2px var(--primary);
+}
+
+button.bold:hover {
+	border: solid 2px var(--primary);
+
+	filter: drop-shadow(0px 0px 30px var(--accent-shadow));
+}
+
+button.element:hover {
+	border: solid 2px var(--primary);
 }
 
 input {
@@ -146,6 +169,8 @@ input {
 	font-weight: 600;
 	font-style: normal;
 	font-size: 0.75rem;
+
+	transition: border 150ms ease;
 }
 
 input::placeholder {
@@ -160,11 +185,16 @@ input::placeholder {
 
 input:focus {
 	outline: none;
+	border: solid 2px var(--primary);
+}
+
+input:hover {
+	border: solid 2px var(--primary);
 }
 
 button.bold {
 	background: var(--accent-1);
-	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+	background: var(--accent-gradient); 
 }
 
 button.element {
@@ -175,7 +205,6 @@ button.element {
 
 .link {
 	color: var(--primary);
-	text-decoration: underline;
 
 	font-family: "Inter", sans-serif;
 	font-optical-sizing: auto;
@@ -184,11 +213,17 @@ button.element {
 	font-size: 0.75rem;
 }
 
+.link:hover {
+	text-decoration: underline;
+}
+
 span.bold {
 	background: var(--accent-1);
-	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+	background: var(--accent-gradient); 
 	background-clip: text;
 	color: transparent;
+
+	filter: drop-shadow(0px 0px 30px var(--accent-shadow));
 }
 
 h1.bold {
@@ -196,4 +231,6 @@ h1.bold {
 	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
 	background-clip: text;
 	color: transparent;
+
+	filter: drop-shadow(0px 0px 30px var(--accent-shadow));
 }
