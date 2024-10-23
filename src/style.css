@@ -136,6 +136,10 @@ button.bold:hover {
 	filter: drop-shadow(0px 0px 30px var(--accent-shadow));
 }
 
+button.element:hover {
+	border: solid 2px var(--primary);
+}
+
 input {
 	color: var(--primary);
 	background: var(--element);
@@ -153,6 +157,8 @@ input {
 	font-weight: 600;
 	font-style: normal;
 	font-size: 0.75rem;
+
+	transition: border 150ms ease;
 }
 
 input::placeholder {
@@ -167,6 +173,11 @@ input::placeholder {
 
 input:focus {
 	outline: none;
+	border: solid 2px var(--primary);
+}
+
+input:hover {
+	border: solid 2px var(--primary);
 }
 
 button.bold {
@@ -182,13 +193,16 @@ button.element {
 
 .link {
 	color: var(--primary);
-	text-decoration: underline;
 
 	font-family: "Inter", sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
 	font-size: 0.75rem;
+}
+
+.link:hover {
+	text-decoration: underline;
 }
 
 span.bold {
