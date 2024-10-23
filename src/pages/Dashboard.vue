@@ -35,7 +35,7 @@ function formatShift(shift: any) {
     day: '2-digit',
   }).format(date)
   
-  return `${date.toLocaleDateString('en-US', { weekday: 'long' })} ${shift.time === 'day' ? 'Day' : 'Night'} Shift, ${formattedDate}`
+  return `${shift.time === 'day' ? 'Day' : 'Night'} Shift, ${formattedDate}`
 }
 
 async function remove(shift: any) {
