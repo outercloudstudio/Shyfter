@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue'
+import BackArrow from '@/components/BackArrow.vue'
 
 import { register, login } from '@/libs/Firebase'
 import { ref } from 'vue'
@@ -19,6 +20,8 @@ async function onRegister() {
 
 <template>
     <div class="w-full h-full flex justify-center items-center flex-col">
+        <BackArrow to="/" />
+
 		<h1 class="bold mb-8">Register</h1>
 
 		<Card title="Login" icon="deployed_code" :bold="true" >

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue'
+import BackArrow from '@/components/BackArrow.vue'
 
 import { login } from '@/libs/Firebase'
 import { loadUser } from '@/libs/State'
@@ -21,6 +22,8 @@ async function onLogin() {
 
 <template>
 	<div class="w-full h-full flex justify-center items-center flex-col">
+		<BackArrow to="/" />
+
 		<h1 class="bold mb-8">Login</h1>
 
 		<Card title="Login" icon="deployed_code" :bold="true" >
@@ -36,5 +39,5 @@ async function onLogin() {
 				<button @click="onLogin" class="element">Login</button>
 			</div>
 		</Card>
-	</div>
+	</div>	
 </template>
