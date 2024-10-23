@@ -1,9 +1,10 @@
 <script setup lang="ts">
 import Card from '@/components/Card.vue'
+
 import { login } from '@/libs/Firebase'
 import { loadUser } from '@/libs/State'
-import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
 const router = useRouter()
 
