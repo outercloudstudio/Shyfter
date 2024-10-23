@@ -57,7 +57,7 @@ const trades: ComputedRef<Trade[]> = computed(() => calculateTrades(shifts.value
 	<button @click="create">Create</button>
 
 	<div v-for="shift in shifts">
-		<p>{{ shift.time }}: {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p>
+		<p>{{ formatShift(shift) }}</p>
 	</div>
 
 	<h4>Available Trades</h4>
