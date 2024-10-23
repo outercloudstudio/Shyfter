@@ -7,7 +7,7 @@ import { calculateTrades } from '@/libs/Trades'
 import { computed, ComputedRef } from 'vue'
 import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
 import { Ref, ref } from 'vue'
-import { createShift } from '@/libs/Firebase'
+import { createShift, deleteShift } from '@/libs/Firebase'
 
 // Shift Manager
 const day: Ref<string | undefined> = ref(undefined)
@@ -35,7 +35,16 @@ function formatShift(shift: any) {
     day: '2-digit',
   }).format(date)
   
-  return `${date.toLocaleDateString('en-US', { weekday: 'long' })} ${shift.time === 'day' ? 'Day' : 'Night'} Shift, ${formattedDate}`
+  return `${shift.time === 'day' ? 'Day' : 'Night'} Shift, ${formattedDate}`
+}
+
+async function remove(shift: any) {
+	try {
+    	await deleteShift(shift)
+    	updateShifts()
+  	} catch (error) {
+    console.error("Error removing shift: ", error)
+  }
 }
 
 const trades: ComputedRef<Trade[]> = computed(() => calculateTrades(shifts.value))
@@ -57,7 +66,8 @@ const trades: ComputedRef<Trade[]> = computed(() => calculateTrades(shifts.value
 	<button @click="create">Create</button>
 
 	<div v-for="shift in shifts">
-		<p>{{ shift.time }}: {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p>
+		<p>{{ formatShift(shift) }}</p>
+		<button @click="remove(shift)">Delete</button>
 	</div>
 
 	<h4>Available Trades</h4>
