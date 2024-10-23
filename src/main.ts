@@ -28,7 +28,9 @@ const router = createRouter({
     ],
 })
 
-// await loginWithSavedAccount()
-// await loadUser()
+try {
+    await loginWithSavedAccount()
+    await loadUser()
+} catch {}
 
 createApp(App).use(router).mount('#app')

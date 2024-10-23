@@ -2,9 +2,10 @@
 import Card from '@/components/Card.vue'
 import BackArrow from '@/components/BackArrow.vue'
 
-import { register, login } from '@/libs/Firebase'
+import { register } from '@/libs/Firebase'
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
+import { loadUser } from '@/libs/State'
 
 const router = useRouter()
 
@@ -13,6 +14,7 @@ const password = ref('')
 
 async function onRegister() {
     await register(email.value, password.value)
+	await loadUser()
 
     router.push('dashboard')
 }
