@@ -28,7 +28,7 @@ const router = createRouter({
     ],
 })
 
-await loginWithSavedAccount()
-await loadUser()
+// await loginWithSavedAccount()
+// await loadUser()
 
 createApp(App).use(router).mount('#app')

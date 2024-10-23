@@ -1,0 +1,73 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root {
+	--primary: #F7F8F8;
+	--accent-1: #FFBF00;
+	--accent-2: #FF6B00;
+}
+
+body::before {
+	content: "";
+	margin: 0;
+	padding: 0;
+
+	background: rgb(19,21,22);
+	background: linear-gradient(180deg, rgba(19,21,22,1) 0%, rgba(9,10,10,1) 100%); 
+	
+	width: 100vw;
+	height: 100vh;
+
+	display: block;
+	position: absolute;
+
+	z-index: -2;
+}
+
+body::after {
+	content: "";
+	margin: 0;
+	padding: 0;
+
+	background-image: url("grid.png");
+	background-position: center; 
+
+	opacity: 25%;
+
+	width: 100vw;
+	height: 100vh;
+
+	display: block;
+	position: absolute;
+
+	z-index: -2;
+
+	top: 0;
+	left: 0;
+}
+
+body { 
+	margin: 0rem;
+	padding: 0rem;
+
+	width: 100vw;
+	height: 100vh;
+}
+
+h1 {
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+
+	color: var(--primary);
+
+	margin: 0rem;
+	margin-bottom: 0.5rem;
+}
+
+.bold {
+	background: var(--accent-1);
+	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+	background-clip: text;
+	color: transparent;
+}
