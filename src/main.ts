@@ -11,8 +11,9 @@ import Login from '@pages/Login.vue'
 import Register from '@pages/Register.vue'
 import Trades from '@pages/Trades.vue'
 import Welcome from '@pages/Welcome.vue'
-import { loginWithSavedAccount } from '@libs/Firebase'
-import { loadUser } from '@/libs/State'
+import { getTrades, loginWithSavedAccount } from '@libs/Firebase'
+import { currentOrganization, loadUser } from '@libs/State'
+import { calculateTrades } from '@libs/Trades'
 
 const router = createRouter({
     history: createWebHistory(),
@@ -33,4 +34,7 @@ try {
     await loadUser()
 } catch {}
 
-createApp(App).use(router).mount('#app')
+const trades = await getTrades(currentOrganization.value!)
+console.log(calculateTrades(trades))
+
+// createApp(App).use(router).mount('#app')
