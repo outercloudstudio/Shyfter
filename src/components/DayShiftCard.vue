@@ -37,12 +37,12 @@ const nightShift: ComputedRef<Shift | undefined> = computed(() => dayShifts.valu
 
 	<div v-if="nightShift" class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-primary">
 		<Icon icon="bedtime" class="text-primary" />
-		<p>night</p>
+		<p>Night</p>
 	</div>
 
 	<div v-else class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-dashed border-element-border">
 		<Icon icon="bedtime" class="text-primary" />
-		<p>night</p>
+		<p>Night</p>
 	</div>
 	<!-- <p>{{ shift.time }} {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p> -->
 </Card>
