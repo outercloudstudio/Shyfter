@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Card from '@/components/Card.vue'
 import { login } from '@/libs/Firebase'
 import { loadUser } from '@/libs/State'
 import { ref } from 'vue'
@@ -18,13 +19,19 @@ async function onLogin() {
 </script>
 
 <template>
-	<h1>Login</h1>
-	<p>Email</p>
-	<input v-model="email" />
-	<p>Password</p>
-	<input v-model="password" />
-	<br />
-	<button @click="onLogin">Login</button>
-	<br />
-	<router-link to="register">Register</router-link>
+	<div class="w-full h-full flex justify-center items-center">
+		<Card title="Login" icon="deployed_code" :bold="true" >
+			<p>Email</p>
+			<input v-model="email" class="mb-2"/>
+
+			<p>Password</p>
+			<input v-model="password" class="mb-4"/>
+			
+			<div class="flex items-center justify-between">
+				<router-link to="register" class="link">Need An Account?</router-link>
+				
+				<button @click="onLogin" class="element">Login</button>
+			</div>
+		</Card>
+	</div>
 </template>

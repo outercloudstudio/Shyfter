@@ -1,9 +1,17 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
 	--primary: #F7F8F8;
 	--accent-1: #FFBF00;
 	--accent-2: #FF6B00;
+	--accent-shadow: #FF6B0055;
+	--secondary: #6A7383;
+	--element: #181819;
+	--element-border: #2B2F36;
 }
 
 body::before {
@@ -58,14 +66,91 @@ h1 {
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
+	font-size: 2.5rem;
 
 	color: var(--primary);
 
 	margin: 0rem;
-	margin-bottom: 0.5rem;
 }
 
-.bold {
+h4 {
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 1rem;
+
+	color: var(--primary);
+
+	margin: 0rem;
+}
+
+p {
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 1rem;
+
+	color: var(--primary);
+
+	margin: 0rem;
+}
+
+button {
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 0.75rem;
+
+	background: var(--primary);
+	color: var(--element);
+
+	padding-left: 0.50rem;
+	padding-right: 0.50rem;
+	padding-top: 0.4rem;
+	padding-bottom: 0.4rem;
+
+	border-radius: 0.4rem;
+
+	margin: 0rem;
+}
+
+input {
+	color: var(--primary);
+	background: var(--element);
+	border: 2px solid var(--element-border);
+
+	border-radius: 0.4rem;
+
+	margin-top: 0.2rem;
+	padding: 0.2rem;
+}
+
+button.bold {
+	background: var(--accent-1);
+	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+}
+
+button.element {
+	color: var(--primary);
+	background: var(--element);
+	border: 2px solid var(--element-border);
+}
+
+.link {
+	color: var(--primary);
+	text-decoration: underline;
+
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 0.75rem;
+}
+
+span.bold {
 	background: var(--accent-1);
 	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
 	background-clip: text;
