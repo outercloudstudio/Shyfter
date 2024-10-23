@@ -24,10 +24,14 @@ defineProps<{ title: string, icon: string, bold?: boolean }>()
 	padding: 1rem;
 
 	border-radius: 0.4rem;
+
+	width: 100%;
+	height: 100%;
 }
 
 .card-outline {
 	display: flex;
+
 	padding: 1px;
 
 	border-radius: 0.4rem;
