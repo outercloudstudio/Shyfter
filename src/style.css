@@ -126,6 +126,28 @@ input {
 
 	margin-top: 0.2rem;
 	padding: 0.2rem;
+	padding-left: 0.4rem;
+	padding-right: 0.4rem;
+
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 0.75rem;
+}
+
+input::placeholder {
+	color: var(--element-border);
+
+	font-family: "Inter", sans-serif;
+	font-optical-sizing: auto;
+	font-weight: 600;
+	font-style: normal;
+	font-size: 0.75rem;
+}
+
+input:focus {
+	outline: none;
 }
 
 button.bold {
@@ -151,6 +173,13 @@ button.element {
 }
 
 span.bold {
+	background: var(--accent-1);
+	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+	background-clip: text;
+	color: transparent;
+}
+
+h1.bold {
 	background: var(--accent-1);
 	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
 	background-clip: text;
