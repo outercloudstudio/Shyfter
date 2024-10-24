@@ -34,57 +34,57 @@ try {
 	await loadUser()
 } catch {}
 
-console.log(
-	calculateTrades([
-		{
-			account: 'a',
-			day: new Date('Jan 1, 2024'),
-			id: '1',
-			time: 'day',
-			organization: {
-				id: 'A',
-				name: 'Org',
-				owner: 'a',
-			},
-			state: ShiftState.Droppable,
-		},
-		{
-			account: 'a',
-			day: new Date('Jan 1, 2024'),
-			id: '1',
-			time: 'night',
-			organization: {
-				id: 'A',
-				name: 'Org',
-				owner: 'a',
-			},
-			state: ShiftState.Wanted,
-		},
-		{
-			account: 'b',
-			day: new Date('Jan 1, 2024'),
-			id: '1',
-			time: 'day',
-			organization: {
-				id: 'A',
-				name: 'Org',
-				owner: 'a',
-			},
-			state: ShiftState.Wanted,
-		},
-		{
-			account: 'b',
-			day: new Date('Jan 1, 2024'),
-			id: '1',
-			time: 'night',
-			organization: {
-				id: 'A',
-				name: 'Org',
-				owner: 'a',
-			},
-			state: ShiftState.Droppable,
-		},
-	])
-)
+// console.log(
+// 	calculateTrades([
+// 		{
+// 			account: 'a',
+// 			day: { day: 1, month: 1, year: 1 },
+// 			id: '1',
+// 			time: 'day',
+// 			organization: {
+// 				id: 'A',
+// 				name: 'Org',
+// 				owner: 'a',
+// 			},
+// 			state: ShiftState.Droppable,
+// 		},
+// 		{
+// 			account: 'a',
+// 			day: { day: 1, month: 1, year: 1 },
+// 			id: 'unset',
+// 			time: 'night',
+// 			organization: {
+// 				id: 'A',
+// 				name: 'Org',
+// 				owner: 'a',
+// 			},
+// 			state: ShiftState.Wanted,
+// 		},
+// 		{
+// 			account: 'b',
+// 			day: { day: 1, month: 1, year: 1 },
+// 			id: 'unset',
+// 			time: 'day',
+// 			organization: {
+// 				id: 'A',
+// 				name: 'Org',
+// 				owner: 'a',
+// 			},
+// 			state: ShiftState.Wanted,
+// 		},
+// 		{
+// 			account: 'b',
+// 			day: { day: 1, month: 1, year: 1 },
+// 			id: '2',
+// 			time: 'night',
+// 			organization: {
+// 				id: 'A',
+// 				name: 'Org',
+// 				owner: 'a',
+// 			},
+// 			state: ShiftState.Droppable,
+// 		},
+// 	])
+// )
 
-// createApp(App).use(router).mount('#app')
+createApp(App).use(router).mount('#app')

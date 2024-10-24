@@ -104,32 +104,34 @@ export enum ShiftState {
 	Wanted = 'Wanted',
 }
 
+export type Day = {
+	month: number
+	day: number
+	year: number
+}
+
 export type Shift = {
 	account: string
-	day: Date
+	day: Day
 	time: 'day' | 'night'
 	organization: Organization
 	id: string
 	state: ShiftState
 }
 
-export type Trade =
-	| {
-			from: string
-			to: unknown
-			shift: string
-			approved: false
-			organization: Organization
-			id: string
-	  }
-	| {
-			from: string
-			to: string
-			shift: string
-			approved: true
-			organization: Organization
-			id: string
-	  }
+export type Trade = {
+	from: string
+	to: string
+	fromShift: string
+	toShift: string
+	approved: boolean
+	organization: Organization
+	id: string
+}
+
+export function getShiftTimeUniqueId(shift: Shift): string {
+	return `${shift.time} ${shift.day.day} ${shift.day.month}  ${shift.day.year}`
+}
 
 export async function getUser(accountId?: string): Promise<User> {
 	if (!loggedIn) throw new Error('Not logged in!')
@@ -385,7 +387,8 @@ export async function createTrade(
 	organization: Organization,
 	from: string,
 	to: string,
-	shift: Shift
+	fromShift: Shift,
+	toShift: Shift
 ) {
 	if (!loggedIn) throw new Error('Not logged in!')
 	if (!auth) throw new Error('Not authenticated!')
@@ -394,7 +397,8 @@ export async function createTrade(
 	await addDoc(collection(db, `organizations/${organization.id}/trades`), {
 		from,
 		to,
-		shift: shift.id,
+		fromShift: fromShift.id,
+		toShift: toShift.id,
 		approved: false,
 	})
 }
@@ -415,7 +419,8 @@ export async function changeTradeApproval(trade: Trade, approved: boolean) {
 	await updateDoc(doc(db, `organizations/${trade.organization.id}/trades/${trade.id}`), {
 		from: trade.from,
 		to: trade.to,
-		shift: trade.shift,
+		fromShift: trade.fromShift,
+		toShift: trade.toShift,
 		approved,
 	})
 }
@@ -428,7 +433,8 @@ export async function changeTradeAcceptedUser(trade: Trade, acceptedUserId: stri
 	await updateDoc(doc(db, `organizations/${trade.organization.id}/trades/${trade.id}`), {
 		from: trade.from,
 		to: acceptedUserId,
-		shift: trade.shift,
+		fromShift: trade.fromShift,
+		toShift: trade.toShift,
 		approved: trade.approved,
 	})
 }
