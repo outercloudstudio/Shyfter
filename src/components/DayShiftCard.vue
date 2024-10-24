@@ -90,6 +90,13 @@ function changeState(shift: Shift, newState: ShiftState) {
 			['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.getDay()]
 		"
 		icon="calendar_today"
+		:detail="
+			['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][
+				day.getMonth()
+			] +
+			' ' +
+			day.getDate()
+		"
 	>
 		<div class="h-1" />
 
@@ -184,7 +191,6 @@ function changeState(shift: Shift, newState: ShiftState) {
 				/>
 			</div>
 		</div>
-		<!-- <p>{{ shift.time }} {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p> -->
 
 		<div
 			v-if="createPopupOpen"
