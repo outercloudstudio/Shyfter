@@ -1,25 +1,12 @@
 <script setup lang="ts">
 import Card from './Card.vue'
 
-import { computed } from 'vue'
+import { computed, ComputedRef, onMounted, ref, Ref, watch } from 'vue'
 import { calculateTrades } from '@/libs/Trades'
-import { shifts, user } from '@/libs/State'
-import { getMember, getUser } from '@/libs/Firebase'
+import { currentOrganization, shifts, user } from '@/libs/State'
+import { getMember, getShift, getUser, Trade } from '@/libs/Firebase'
 
-// idk if you had a better way of formatting dates, this is based on the one i made for the list of shifts
-function formatDate(day: any) {
-	if (day && typeof day.seconds === 'number') {
-		return new Date(day.seconds * 1000).toLocaleDateString()
-	}
-
-	if (day instanceof Date) {
-		return day.toLocaleDateString()
-	}
-
-	return ''
-}
-
-const trades = computed(() => {
+const trades: ComputedRef<Trade[]> = computed(() => {
 	const trades = calculateTrades(shifts.value).filter(
 		trade => trade.from === user.value?.account || trade.to === user.value?.account
 	)
@@ -30,56 +17,81 @@ const trades = computed(() => {
 	return trades
 })
 
-// onMounted(async () => {
-// 	await updateShifts()
+const tradeData: Ref<
+	{ trade: Trade; otherUserName: string; giveTime: string; takeTime: string }[]
+> = ref([])
 
-// 	droppableShifts.value = shifts.value.filter(shift => shift.state === ShiftState.Droppable)
+async function updateTradeData() {
+	tradeData.value = await Promise.all(
+		trades.value.map(async trade => {
+			if (!currentOrganization.value) throw new Error('No organization!')
 
-// 	if (currentOrganization.value) {
-// 		trades.value = await getTrades(currentOrganization.value)
-// 	}
-// })
+			const userIsFrom = trade.from === user.value?.account
+			const giveShift = await getShift(
+				currentOrganization.value,
+				userIsFrom ? trade.fromShift : trade.toShift
+			)
+			const takeShift = await getShift(
+				currentOrganization.value,
+				userIsFrom ? trade.toShift : trade.fromShift
+			)
 
-// idk how to do firebase things, i keep getting errors that i don't have permissions
-// so idk if this function works at all
+			return {
+				otherUserName: (await getUser(userIsFrom ? trade.to : trade.from)).name,
+				giveTime: `${giveShift.time.charAt(0).toUpperCase() + giveShift.time.slice(1)} Shift on ${
+					['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][
+						giveShift.day.month
+					]
+				} S ${giveShift.day.day}`,
+				takeTime: `${takeShift.time.charAt(0).toUpperCase() + takeShift.time.slice(1)} Shift on ${
+					['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][
+						takeShift.day.month
+					]
+				} ${takeShift.day.day}`,
+				trade,
+			}
+		})
+	)
+}
 
-/* async function createTradeRequest() {
-  if (!selectedFromShift.value || !selectedToShift.value || !selectedUserToTradeWith.value) {
-    alert('Select shifts and user to trade with.')
-    return
-  }
+watch(trades, async () => {
+	await updateTradeData()
+})
 
-  if (!currentOrganization.value || !user.value) return
+onMounted(() => {
+	updateTradeData()
+})
 
-  try {
-    const fromShift = shifts.value.find(shift => shift.id === selectedFromShift.value)
-    const toShift = shifts.value.find(shift => shift.id === selectedToShift.value)
-
-    if (!fromShift || !toShift) return
-
-    await createTrade(currentOrganization.value, user.value.account, selectedUserToTradeWith.value, fromShift, toShift)
-    
-    trades.value = await getTrades(currentOrganization.value)
-    alert('Trade successful.')
-  } catch (error) {
-    console.error('Error creating trade:', error)
-  }
-} */
+async function makeTrade(trade: Trade) {}
 </script>
 
 <template>
 	<div>
-		<h4>Trades Dashboard</h4>
+		<h4 class="mb-1">Trades Dashboard</h4>
 
 		<div class="flex flex-wrap gap-2 grow">
 			<Card
-				v-for="trade in trades"
-				:key="trade.from + trade.fromShift + trade.to + trade.toShift"
+				v-for="data in tradeData"
+				:key="data.trade.from + data.trade.fromShift + data.trade.to + data.trade.toShift"
 				title="Trade"
 				icon="swap_horiz"
 				class="basis-48 grow max-w-80"
 			>
-				<p>You and {{ (await getUser(trade.from === user?.account ? trade.from : trade.to)).name }}</p>
+				<p class="my-4">Between You and {{ data.otherUserName }}</p>
+
+				<p>
+					<span class="text-secondary">You give</span>
+					{{ data.giveTime }}
+				</p>
+
+				<p>
+					<span class="text-secondary">You take</span>
+					{{ data.takeTime }}
+				</p>
+
+				<div class="flex mt-4 justify-end">
+					<button @click="makeTrade(data.trade)">Trade</button>
+				</div>
 			</Card>
 		</div>
 	</div>

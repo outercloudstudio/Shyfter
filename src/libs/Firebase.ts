@@ -407,6 +407,21 @@ export async function getShifts(organization: Organization): Promise<Shift[]> {
 	return shifts
 }
 
+export async function getShift(organization: Organization, shiftId: string): Promise<Shift> {
+	if (!loggedIn) throw new Error('Not logged in!')
+	if (!auth) throw new Error('Not authenticated!')
+	if (!auth.currentUser?.uid) throw new Error('No current user uid!')
+
+	const shiftReference = doc(db, `organizations/${organization.id}/shifts/${shiftId}`)
+	const shiftDocument = await getDoc(shiftReference)
+
+	const shift = shiftDocument.data() as Shift
+	shift.id = shiftDocument.id
+	shift.organization = organization
+
+	return shift
+}
+
 export async function createTrade(
 	organization: Organization,
 	from: string,

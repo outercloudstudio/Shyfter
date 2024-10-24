@@ -7,10 +7,10 @@ import Trades from '@/components/Trades.vue'
 <template>
 	<!-- <NavigationMenu /> -->
 
-	<div class="w-full h-full p-[10rem]">
+	<div class="w-full h-full p-[4rem]">
 		<h1 class="bold mb-8">Dashboard</h1>
 
-		<DashboardCalendar class="mb-4" />
+		<DashboardCalendar class="mb-8" />
 
 		<Trades />
 	</div>
