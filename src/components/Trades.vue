@@ -72,11 +72,6 @@ async function makeTrade(trade: Trade) {
 	const fromShift = await getShift(trade.organization, trade.fromShift)
 	const toShift = await getShift(trade.organization, trade.toShift)
 
-	console.log(fromShift)
-	console.log(toShift)
-
-	console.log(toRaw(shifts.value))
-
 	const fromShiftToRemove = shifts.value.find(
 		shift =>
 			shift.account === fromShift.account &&
@@ -89,9 +84,6 @@ async function makeTrade(trade: Trade) {
 			getShiftTimeUniqueId(shift) === getShiftTimeUniqueId(fromShift) &&
 			shift.state === ShiftState.Wanted
 	)
-
-	console.log(fromShiftToRemove)
-	console.log(toShiftToRemove)
 
 	await Promise.all([
 		fromShiftToRemove ? deleteShift(fromShiftToRemove) : undefined,

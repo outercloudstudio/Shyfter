@@ -43,3 +43,7 @@ export async function loadUser() {
 
 	if (organizations.value.length > 0) currentOrganization.value = organizations.value[0]
 }
+
+setInterval(() => {
+	updateShifts()
+}, 5000)
