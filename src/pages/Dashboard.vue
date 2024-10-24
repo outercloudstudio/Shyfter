@@ -8,9 +8,9 @@ import Trades from '@/components/Trades.vue'
 	<!-- <NavigationMenu /> -->
 
 	<div class="w-full h-full p-[10rem]">
-		<h1 class="bold">Dashboard</h1>
+		<h1 class="bold mb-8">Dashboard</h1>
 
-		<DashboardCalendar />
+		<DashboardCalendar class="mb-4" />
 
 		<Trades />
 	</div>

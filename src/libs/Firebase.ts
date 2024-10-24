@@ -332,8 +332,9 @@ export async function getMembers(organization: Organization): Promise<Member[]> 
 export async function createShift(
 	organization: Organization,
 	account: string,
-	day: Date,
-	time: 'day' | 'night'
+	day: Day,
+	time: 'day' | 'night',
+	state: ShiftState
 ) {
 	if (!loggedIn) throw new Error('Not logged in!')
 	if (!auth) throw new Error('Not authenticated!')
@@ -343,6 +344,7 @@ export async function createShift(
 		account,
 		day,
 		time,
+		state,
 	})
 }
 
@@ -354,7 +356,7 @@ export async function deleteShift(shift: Shift) {
 	await deleteDoc(doc(db, `organizations/${shift.organization.id}/shifts/${shift.id}`))
 }
 
-export async function changeShiftTime(shift: Shift, day: Date, time: 'day' | 'night') {
+export async function changeShiftTime(shift: Shift, day: Day, time: 'day' | 'night') {
 	if (!loggedIn) throw new Error('Not logged in!')
 	if (!auth) throw new Error('Not authenticated!')
 	if (!auth.currentUser?.uid) throw new Error('No current user uid!')

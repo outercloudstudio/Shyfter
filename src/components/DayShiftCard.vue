@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { getDayUniqueId, Shift } from '@/libs/Firebase'
 import Card from './Card.vue'
-
-import { shifts } from '@/libs/State'
-import { computed, ComputedRef } from 'vue'
 import Icon from './Icon.vue'
+
+import { createShift, Day, getDayUniqueId, Shift, ShiftState } from '@/libs/Firebase'
+import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
+import { computed, ComputedRef } from 'vue'
 
 const props = defineProps<{ day: Date }>()
 
@@ -30,6 +30,15 @@ const dayShift: ComputedRef<Shift | undefined> = computed(() =>
 const nightShift: ComputedRef<Shift | undefined> = computed(() =>
 	dayShifts.value.find(shift => shift.time === 'night')
 )
+
+function create(day: Day, time: 'day' | 'night', state: ShiftState) {
+	if (!currentOrganization.value) return
+	if (!user.value) return
+
+	createShift(currentOrganization.value, user.value.account, day, time, state)
+
+	updateShifts()
+}
 </script>
 <template>
 	<Card
@@ -40,30 +49,58 @@ const nightShift: ComputedRef<Shift | undefined> = computed(() =>
 	>
 		<div class="h-1" />
 
-		<div v-if="dayShift" class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-primary">
-			<Icon icon="clear_day" class="text-primary" />
-			<p>Day</p>
+		<div
+			class="flex my-2 justify-between p-2 rounded-[0.4rem] border-[2px]"
+			:class="{
+				'bg-primary': dayShift,
+				'text-element': dayShift,
+				'border-transparent': dayShift,
+				'text-primary': !dayShift,
+				'border-dashed': !dayShift,
+				'border-element-border': !dayShift,
+			}"
+		>
+			<div class="flex items-center gap-2">
+				<Icon icon="clear_day" class="text-inherit" />
+
+				<p class="text-inherit">Day</p>
+			</div>
+
+			<div v-if="dayShift" class="flex items-center">
+				<Icon icon="download" class="text-inherit" />
+				<Icon icon="delete" class="text-inherit" />
+			</div>
+
+			<div v-else class="flex items-center">
+				<Icon icon="add" class="text-inherit" />
+			</div>
 		</div>
 
 		<div
-			v-else
-			class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-dashed border-element-border"
+			class="flex my-2 justify-between p-2 rounded-[0.4rem] border-[2px]"
+			:class="{
+				'bg-primary': nightShift,
+				'text-element': nightShift,
+				'border-transparent': nightShift,
+				'text-primary': !nightShift,
+				'border-dashed': !nightShift,
+				'border-element-border': !nightShift,
+			}"
 		>
-			<Icon icon="clear_day" class="text-primary" />
-			<p>Day</p>
-		</div>
+			<div class="flex items-center gap-2">
+				<Icon icon="bedtime" class="text-inherit" />
 
-		<div v-if="nightShift" class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-primary">
-			<Icon icon="bedtime" class="text-primary" />
-			<p>Night</p>
-		</div>
+				<p class="text-inherit">Night</p>
+			</div>
 
-		<div
-			v-else
-			class="flex my-2 gap-2 p-2 rounded-[0.4rem] border-[2px] border-dashed border-element-border"
-		>
-			<Icon icon="bedtime" class="text-primary" />
-			<p>Night</p>
+			<div v-if="nightShift" class="flex items-center">
+				<Icon icon="download" class="text-inherit" />
+				<Icon icon="delete" class="text-inherit" />
+			</div>
+
+			<div v-else class="flex items-center">
+				<Icon icon="add" class="text-inherit" />
+			</div>
 		</div>
 		<!-- <p>{{ shift.time }} {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p> -->
 	</Card>
