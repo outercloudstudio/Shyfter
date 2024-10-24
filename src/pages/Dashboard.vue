@@ -5,11 +5,13 @@ import Trades from '@/components/Trades.vue'
 </script>
 
 <template>
-	<NavigationMenu />
+	<!-- <NavigationMenu /> -->
 
-	<h1>Dashboard</h1>
+	<div class="w-full h-full p-[10rem]">
+		<h1 class="bold">Dashboard</h1>
 
-	<DashboardCalendar />
+		<DashboardCalendar />
 
-	<Trades />
+		<Trades />
+	</div>
 </template>

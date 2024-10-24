@@ -5,24 +5,24 @@
 @tailwind utilities;
 
 :root {
-	--primary: #F9F6EE;
-	--accent-1: #FFBF00;
-	--accent-2: #FF6B00;
-	--accent-shadow: #FF6B0055;
+	--primary: #f9f6ee;
+	--accent-1: #ffbf00;
+	--accent-2: #ff6b00;
+	--accent-shadow: #ff6b0055;
 	--accent-gradient: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
-	--secondary: #6A7383;
+	--secondary: #6a7383;
 	--element: #181819;
-	--element-border: #2B2F36;
+	--element-border: #2b2f36;
 }
 
 body::before {
-	content: "";
+	content: '';
 	margin: 0;
 	padding: 0;
 
-	background: rgb(19,21,22);
-	background: linear-gradient(180deg, rgba(19,21,22,1) 0%, rgba(9,10,10,1) 100%); 
-	
+	background: rgb(19, 21, 22);
+	background: linear-gradient(180deg, rgba(19, 21, 22, 1) 0%, rgba(9, 10, 10, 1) 100%);
+
 	width: 100vw;
 	height: 100vh;
 
@@ -33,12 +33,12 @@ body::before {
 }
 
 body::after {
-	content: "";
+	content: '';
 	margin: 0;
 	padding: 0;
 
-	background-image: url("grid.png");
-	background-position: center; 
+	background-image: url('grid.png');
+	background-position: center;
 
 	opacity: 25%;
 
@@ -54,7 +54,7 @@ body::after {
 	left: 0;
 }
 
-body { 
+body {
 	margin: 0rem;
 	padding: 0rem;
 
@@ -63,7 +63,7 @@ body {
 }
 
 h1 {
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -75,7 +75,7 @@ h1 {
 }
 
 h3 {
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -87,7 +87,7 @@ h3 {
 }
 
 h4 {
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -99,7 +99,7 @@ h4 {
 }
 
 p {
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -111,7 +111,7 @@ p {
 }
 
 button {
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -120,8 +120,8 @@ button {
 	background: var(--primary);
 	color: var(--element);
 
-	padding-left: 0.50rem;
-	padding-right: 0.50rem;
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
 	padding-top: 0.4rem;
 	padding-bottom: 0.4rem;
 
@@ -131,7 +131,7 @@ button {
 
 	transition: color 150ms ease, background 150ms ease, border 150ms ease, filter 150ms ease;
 
-	border: solid 2px transparent;
+	border: solid 1px transparent;
 
 	box-sizing: content-box;
 }
@@ -139,23 +139,23 @@ button {
 button:hover {
 	color: var(--primary);
 	background: var(--element);
-	border: solid 2px var(--primary);
+	border: solid 1px var(--primary);
 }
 
 button.bold:hover {
-	border: solid 2px var(--primary);
+	border: solid 1px var(--primary);
 
 	filter: drop-shadow(0px 0px 30px var(--accent-shadow));
 }
 
 button.element:hover {
-	border: solid 2px var(--primary);
+	border: solid 1px var(--primary);
 }
 
 input {
 	color: var(--primary);
 	background: var(--element);
-	border: 2px solid var(--element-border);
+	border: 1px solid var(--element-border);
 
 	border-radius: 0.4rem;
 
@@ -164,7 +164,7 @@ input {
 	padding-left: 0.4rem;
 	padding-right: 0.4rem;
 
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -176,7 +176,7 @@ input {
 input::placeholder {
 	color: var(--element-border);
 
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -185,28 +185,28 @@ input::placeholder {
 
 input:focus {
 	outline: none;
-	border: solid 2px var(--primary);
+	border: solid 1px var(--primary);
 }
 
 input:hover {
-	border: solid 2px var(--primary);
+	border: solid 1px var(--primary);
 }
 
 button.bold {
 	background: var(--accent-1);
-	background: var(--accent-gradient); 
+	background: var(--accent-gradient);
 }
 
 button.element {
 	color: var(--primary);
 	background: var(--element);
-	border: 2px solid var(--element-border);
+	border: 1px solid var(--element-border);
 }
 
 .link {
 	color: var(--primary);
 
-	font-family: "Inter", sans-serif;
+	font-family: 'Inter', sans-serif;
 	font-optical-sizing: auto;
 	font-weight: 600;
 	font-style: normal;
@@ -219,7 +219,7 @@ button.element {
 
 span.bold {
 	background: var(--accent-1);
-	background: var(--accent-gradient); 
+	background: var(--accent-gradient);
 	background-clip: text;
 	color: transparent;
 
@@ -228,7 +228,7 @@ span.bold {
 
 h1.bold {
 	background: var(--accent-1);
-	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%); 
+	background: linear-gradient(135deg, var(--accent-1) 0%, var(--accent-2) 100%);
 	background-clip: text;
 	color: transparent;
 

@@ -2,8 +2,33 @@
 import DayShiftCard from '@/components/DayShiftCard.vue'
 
 import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
-import { Ref, ref } from 'vue'
+import { computed, ComputedRef, Ref, ref } from 'vue'
 import { createShift, deleteShift } from '@/libs/Firebase'
+import Icon from './Icon.vue'
+
+const timelineStartDate: Ref<Date> = ref(new Date())
+const timelineDates: ComputedRef<Date[]> = computed(() => {
+	let dates: Date[] = []
+
+	for (let dayOffset = 0; dayOffset < 7; dayOffset++) {
+		const date = new Date(timelineStartDate.value.getTime())
+		date.setDate(date.getDate() + dayOffset)
+
+		dates.push(date)
+	}
+
+	return dates
+})
+
+function moveTimelineForward() {
+	timelineStartDate.value.setDate(timelineStartDate.value.getDate() + 1)
+	timelineStartDate.value = new Date(timelineStartDate.value.getTime())
+}
+
+function moveTimelineBackward() {
+	timelineStartDate.value.setDate(timelineStartDate.value.getDate() - 1)
+	timelineStartDate.value = new Date(timelineStartDate.value.getTime())
+}
 
 const day: Ref<string | undefined> = ref(undefined)
 const time: Ref<'day' | 'night'> = ref('day')
@@ -44,8 +69,18 @@ async function remove(shift: any) {
 </script>
 
 <template>
-	<h4>Mini Calendar</h4>
-	<DayShiftCard :day="new Date('October 23, 2024')" />
+	<h4>Calendar</h4>
+	<div class="flex gap-2">
+		<button class="element" @click="moveTimelineBackward">
+			<Icon icon="chevron_left" />
+		</button>
+
+		<DayShiftCard v-for="date of timelineDates" :day="date" />
+
+		<button class="element" @click="moveTimelineForward">
+			<Icon icon="chevron_right" />
+		</button>
+	</div>
 
 	<h4>Shift Manager</h4>
 	<input type="date" v-model="day" />
