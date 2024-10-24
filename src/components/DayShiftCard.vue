@@ -3,7 +3,7 @@ import { getDayUniqueId, Shift } from '@/libs/Firebase'
 import Card from './Card.vue'
 
 import { shifts } from '@/libs/State'
-import { computed, ComputedRef, toRaw } from 'vue'
+import { computed, ComputedRef } from 'vue'
 import Icon from './Icon.vue'
 
 const props = defineProps<{ day: Date }>()
@@ -37,7 +37,6 @@ const nightShift: ComputedRef<Shift | undefined> = computed(() =>
 			['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][day.getDay()]
 		"
 		icon="calendar_today"
-		class="w-48"
 	>
 		<div class="h-1" />
 

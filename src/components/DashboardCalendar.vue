@@ -70,12 +70,14 @@ async function remove(shift: any) {
 
 <template>
 	<h4>Calendar</h4>
-	<div class="flex gap-2">
+	<div class="flex gap-2 w-full">
 		<button class="element" @click="moveTimelineBackward">
 			<Icon icon="chevron_left" />
 		</button>
 
-		<DayShiftCard v-for="date of timelineDates" :day="date" />
+		<div class="flex flex-wrap gap-2 grow">
+			<DayShiftCard v-for="date of timelineDates" :day="date" class="basis-48 grow" />
+		</div>
 
 		<button class="element" @click="moveTimelineForward">
 			<Icon icon="chevron_right" />
