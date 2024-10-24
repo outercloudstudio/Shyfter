@@ -129,6 +129,10 @@ export type Trade = {
 	id: string
 }
 
+export function getDayUniqueId(day: Day): string {
+	return `${day.day} ${day.month}  ${day.year}`
+}
+
 export function getShiftTimeUniqueId(shift: Shift): string {
 	return `${shift.time} ${shift.day.day} ${shift.day.month}  ${shift.day.year}`
 }
