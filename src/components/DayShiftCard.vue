@@ -13,7 +13,7 @@ import {
 	ShiftState,
 } from '@/libs/Firebase'
 import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
-import { computed, ComputedRef, Ref, ref } from 'vue'
+import { computed, ComputedRef, ref } from 'vue'
 
 const props = defineProps<{ day: Date }>()
 
@@ -25,6 +25,8 @@ const dayKey = getDayUniqueId({
 
 const dayShifts: ComputedRef<Shift[]> = computed(() =>
 	shifts.value.filter(shift => {
+		if (shift.account !== user.value?.account) return false
+
 		const shiftDayKey = getDayUniqueId(shift.day)
 
 		if (dayKey !== shiftDayKey) return false
@@ -43,7 +45,6 @@ const nightShift: ComputedRef<Shift | undefined> = computed(() =>
 const createPopupOpen = ref(false)
 let createTime: 'day' | 'night' = 'day'
 const addPopupOpen = ref(false)
-const requestingShift = ref(false)
 
 function openCreatePopup(time: 'day' | 'night') {
 	createPopupOpen.value = true
