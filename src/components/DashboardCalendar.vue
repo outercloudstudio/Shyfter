@@ -1,9 +1,8 @@
 <script setup lang="ts">
 import DayShiftCard from '@/components/DayShiftCard.vue'
 
-import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
 import { computed, ComputedRef, Ref, ref } from 'vue'
-import { createShift, Day, deleteShift, getDayUniqueId, ShiftState } from '@/libs/Firebase'
+import { getDayUniqueId } from '@/libs/Firebase'
 import Icon from './Icon.vue'
 
 const timelineStartDate: Ref<Date> = ref(new Date())

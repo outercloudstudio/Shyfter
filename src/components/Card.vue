@@ -1,20 +1,20 @@
 <script setup lang="ts">
-import Icon from './Icon.vue';
+import Icon from './Icon.vue'
 
-defineProps<{ title: string, icon: string, bold?: boolean }>()
+defineProps<{ title: string; icon: string; bold?: boolean }>()
 </script>
 
 <template>
-<div  class="card-outline" :class="{ bold: bold }">
-	<div class="card">
-		<div class="flex gap-2 items-center mb-2">
-			<Icon :icon class="text-primary"/>
-			<h4>{{ title }}</h4>
-		</div>
+	<div class="card-outline" :class="{ bold: bold }">
+		<div class="card">
+			<div class="flex gap-2 items-center mb-2">
+				<Icon :icon class="text-primary" />
+				<h4 class="mr-2">{{ title }}</h4>
+			</div>
 
-		<slot />
+			<slot />
+		</div>
 	</div>
-</div>
 </template>
 
 <style scoped>

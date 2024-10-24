@@ -129,6 +129,10 @@ export type Trade = {
 	id: string
 }
 
+export function dateToDay(date: Date): Day {
+	return { day: date.getDate(), month: date.getMonth(), year: date.getFullYear() }
+}
+
 export function getDayUniqueId(day: Day): string {
 	return `${day.day} ${day.month}  ${day.year}`
 }

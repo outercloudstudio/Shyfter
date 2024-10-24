@@ -2,9 +2,17 @@
 import Card from './Card.vue'
 import Icon from './Icon.vue'
 
-import { createShift, Day, getDayUniqueId, Shift, ShiftState } from '@/libs/Firebase'
+import {
+	createShift,
+	dateToDay,
+	Day,
+	deleteShift,
+	getDayUniqueId,
+	Shift,
+	ShiftState,
+} from '@/libs/Firebase'
 import { currentOrganization, user, shifts, updateShifts } from '@/libs/State'
-import { computed, ComputedRef } from 'vue'
+import { computed, ComputedRef, Ref, ref } from 'vue'
 
 const props = defineProps<{ day: Date }>()
 
@@ -31,11 +39,36 @@ const nightShift: ComputedRef<Shift | undefined> = computed(() =>
 	dayShifts.value.find(shift => shift.time === 'night')
 )
 
+const createPopupOpen = ref(false)
+let createTime: 'day' | 'night' = 'day'
+const addPopupOpen = ref(false)
+const requestingShift = ref(false)
+
+function openCreatePopup(time: 'day' | 'night') {
+	createPopupOpen.value = true
+
+	createTime = time
+}
+
+function openAddPopup() {
+	createPopupOpen.value = false
+	addPopupOpen.value = true
+}
+
 function create(day: Day, time: 'day' | 'night', state: ShiftState) {
 	if (!currentOrganization.value) return
 	if (!user.value) return
 
 	createShift(currentOrganization.value, user.value.account, day, time, state)
+
+	updateShifts()
+}
+
+function remove(shift: Shift) {
+	if (!currentOrganization.value) return
+	if (!user.value) return
+
+	deleteShift(shift)
 
 	updateShifts()
 }
@@ -52,11 +85,12 @@ function create(day: Day, time: 'day' | 'night', state: ShiftState) {
 		<div
 			class="flex my-2 justify-between p-2 rounded-[0.4rem] border-[2px]"
 			:class="{
-				'bg-primary': dayShift,
-				'text-element': dayShift,
-				'border-transparent': dayShift,
-				'text-primary': !dayShift,
-				'border-dashed': !dayShift,
+				'bg-primary': dayShift && dayShift.state !== ShiftState.Wanted,
+				'text-element': dayShift && dayShift.state !== ShiftState.Wanted,
+				'border-transparent': dayShift && dayShift.state !== ShiftState.Wanted,
+				'text-primary': !dayShift || dayShift.state === ShiftState.Wanted,
+				'border-primary': dayShift && dayShift.state === ShiftState.Wanted,
+				'border-dashed': !dayShift || dayShift.state === ShiftState.Wanted,
 				'border-element-border': !dayShift,
 			}"
 		>
@@ -67,12 +101,24 @@ function create(day: Day, time: 'day' | 'night', state: ShiftState) {
 			</div>
 
 			<div v-if="dayShift" class="flex items-center">
-				<Icon icon="download" class="text-inherit" />
-				<Icon icon="delete" class="text-inherit" />
+				<Icon
+					v-if="dayShift.state !== ShiftState.Wanted"
+					:icon="dayShift.state === ShiftState.Droppable ? 'lock_open' : 'lock'"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+				/>
+				<Icon
+					icon="delete"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="remove(dayShift)"
+				/>
 			</div>
 
 			<div v-else class="flex items-center">
-				<Icon icon="add" class="text-inherit" />
+				<Icon
+					icon="add"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="openCreatePopup('day')"
+				/>
 			</div>
 		</div>
 
@@ -94,14 +140,118 @@ function create(day: Day, time: 'day' | 'night', state: ShiftState) {
 			</div>
 
 			<div v-if="nightShift" class="flex items-center">
-				<Icon icon="download" class="text-inherit" />
-				<Icon icon="delete" class="text-inherit" />
+				<Icon
+					v-if="nightShift.state !== ShiftState.Wanted"
+					:icon="nightShift.state === ShiftState.Droppable ? 'lock_open' : 'lock'"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+				/>
+				<Icon
+					icon="delete"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="remove(nightShift)"
+				/>
 			</div>
 
 			<div v-else class="flex items-center">
-				<Icon icon="add" class="text-inherit" />
+				<Icon
+					icon="add"
+					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="openCreatePopup('night')"
+				/>
 			</div>
 		</div>
 		<!-- <p>{{ shift.time }} {{ new Date((shift.day?.seconds ?? 0) * 1000) }}</p> -->
+
+		<div
+			v-if="createPopupOpen"
+			class="absolute w-screen h-screen left-0 top-0 flex justify-center items-center"
+		>
+			<div class="absolute left-0 w-screen h-screen top-0 backdrop-blur-lg"></div>
+			<div
+				class="absolute left-0 w-screen h-screen top-0 bg-element opacity-50"
+				@click="createPopupOpen = false"
+			></div>
+
+			<Card class="absolute" title="Add Or Request Shift" icon="add">
+				<p class="w-96 my-8">
+					If you would like to request this shift, press "Request". Otherwise, if you already have this
+					shift, simply press "Add"
+				</p>
+
+				<div class="flex gap-2 justify-end">
+					<button
+						class="element"
+						@click="
+							() => {
+								create(dateToDay(day), createTime, ShiftState.Wanted)
+
+								createPopupOpen = false
+							}
+						"
+					>
+						Request
+					</button>
+
+					<button @click="openAddPopup">Add</button>
+				</div>
+
+				<Icon
+					class="absolute top-4 right-4 text-primary hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					icon="close"
+					@click="createPopupOpen = false"
+				/>
+			</Card>
+		</div>
+
+		<div
+			v-if="addPopupOpen"
+			class="absolute w-screen h-screen left-0 top-0 flex justify-center items-center"
+		>
+			<div class="absolute left-0 w-screen h-screen top-0 backdrop-blur-lg"></div>
+			<div
+				class="absolute left-0 w-screen h-screen top-0 bg-element opacity-50"
+				@click="addPopupOpen = false"
+			></div>
+
+			<Card class="absolute" title="Add Shift" icon="add">
+				<p class="w-96 my-8">
+					Are you willing do trade away this shift? Press "Willing To Trade" if you are. Otherwise, press
+					"Not Willing To Trade"
+				</p>
+
+				<div class="flex gap-2 justify-end">
+					<button
+						class="element"
+						@click="
+							() => {
+								create(dateToDay(day), createTime, ShiftState.None)
+
+								addPopupOpen = false
+							}
+						"
+					>
+						Not Willing To Trade
+					</button>
+
+					<button
+						@click="
+							() => {
+								create(dateToDay(day), createTime, ShiftState.Droppable)
+
+								addPopupOpen = false
+							}
+						"
+					>
+						Willing To Trade
+					</button>
+				</div>
+
+				<Icon
+					class="absolute top-4 right-4 text-primary hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					icon="close"
+					@click="addPopupOpen = false"
+				/>
+			</Card>
+		</div>
 	</Card>
 </template>
