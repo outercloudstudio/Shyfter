@@ -125,11 +125,12 @@ function remove(shift: Shift) {
 		<div
 			class="flex my-2 justify-between p-2 rounded-[0.4rem] border-[2px]"
 			:class="{
-				'bg-primary': nightShift,
-				'text-element': nightShift,
-				'border-transparent': nightShift,
-				'text-primary': !nightShift,
-				'border-dashed': !nightShift,
+				'bg-primary': nightShift && nightShift.state !== ShiftState.Wanted,
+				'text-element': nightShift && nightShift.state !== ShiftState.Wanted,
+				'border-transparent': nightShift && nightShift.state !== ShiftState.Wanted,
+				'text-primary': !nightShift || nightShift.state === ShiftState.Wanted,
+				'border-primary': nightShift && nightShift.state === ShiftState.Wanted,
+				'border-dashed': !nightShift || nightShift.state === ShiftState.Wanted,
 				'border-element-border': !nightShift,
 			}"
 		>
