@@ -1,18 +1,24 @@
 <script setup lang="ts">
 import Card from './Card.vue'
 
-import { computed, ComputedRef, onMounted, ref, Ref, watch } from 'vue'
+import { computed, ComputedRef, onMounted, ref, Ref, toRaw, watch } from 'vue'
 import { calculateTrades } from '@/libs/Trades'
-import { currentOrganization, shifts, user } from '@/libs/State'
-import { getMember, getShift, getUser, Trade } from '@/libs/Firebase'
+import { currentOrganization, shifts, updateShifts, user } from '@/libs/State'
+import {
+	changeShiftAccount,
+	deleteShift,
+	getMember,
+	getShift,
+	getShiftTimeUniqueId,
+	getUser,
+	ShiftState,
+	Trade,
+} from '@/libs/Firebase'
 
 const trades: ComputedRef<Trade[]> = computed(() => {
 	const trades = calculateTrades(shifts.value).filter(
 		trade => trade.from === user.value?.account || trade.to === user.value?.account
 	)
-
-	console.log(shifts.value)
-	console.log(trades)
 
 	return trades
 })
@@ -62,7 +68,40 @@ onMounted(() => {
 	updateTradeData()
 })
 
-async function makeTrade(trade: Trade) {}
+async function makeTrade(trade: Trade) {
+	const fromShift = await getShift(trade.organization, trade.fromShift)
+	const toShift = await getShift(trade.organization, trade.toShift)
+
+	console.log(fromShift)
+	console.log(toShift)
+
+	console.log(toRaw(shifts.value))
+
+	const fromShiftToRemove = shifts.value.find(
+		shift =>
+			shift.account === fromShift.account &&
+			getShiftTimeUniqueId(shift) === getShiftTimeUniqueId(toShift) &&
+			shift.state === ShiftState.Wanted
+	)
+	const toShiftToRemove = shifts.value.find(
+		shift =>
+			shift.account === toShift.account &&
+			getShiftTimeUniqueId(shift) === getShiftTimeUniqueId(fromShift) &&
+			shift.state === ShiftState.Wanted
+	)
+
+	console.log(fromShiftToRemove)
+	console.log(toShiftToRemove)
+
+	await Promise.all([
+		fromShiftToRemove ? deleteShift(fromShiftToRemove) : undefined,
+		toShiftToRemove ? deleteShift(toShiftToRemove) : undefined,
+		changeShiftAccount(fromShift, trade.to),
+		changeShiftAccount(toShift, trade.from),
+	])
+
+	await updateShifts()
+}
 </script>
 
 <template>

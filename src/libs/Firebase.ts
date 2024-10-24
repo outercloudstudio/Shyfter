@@ -386,6 +386,19 @@ export async function changeShiftState(shift: Shift, state: ShiftState) {
 	})
 }
 
+export async function changeShiftAccount(shift: Shift, account: string) {
+	if (!loggedIn) throw new Error('Not logged in!')
+	if (!auth) throw new Error('Not authenticated!')
+	if (!auth.currentUser?.uid) throw new Error('No current user uid!')
+
+	await updateDoc(doc(db, `organizations/${shift.organization.id}/shifts/${shift.id}`), {
+		account: account,
+		day: shift.day,
+		time: shift.time,
+		state: shift.state,
+	})
+}
+
 export async function getShifts(organization: Organization): Promise<Shift[]> {
 	if (!loggedIn) throw new Error('Not logged in!')
 	if (!auth) throw new Error('Not authenticated!')
