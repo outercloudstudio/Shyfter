@@ -98,12 +98,19 @@ export type Member = {
 	id: string
 }
 
+export enum ShiftState {
+	None = 'None',
+	Droppable = 'Droppable',
+	Wanted = 'Wanted',
+}
+
 export type Shift = {
 	account: string
 	day: Date
 	time: 'day' | 'night'
 	organization: Organization
 	id: string
+	state: ShiftState
 }
 
 export type Trade =

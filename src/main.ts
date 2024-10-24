@@ -11,30 +11,80 @@ import Login from '@pages/Login.vue'
 import Register from '@pages/Register.vue'
 import Trades from '@pages/Trades.vue'
 import Welcome from '@pages/Welcome.vue'
-import { getTrades, loginWithSavedAccount } from '@libs/Firebase'
-import { currentOrganization, loadUser } from '@libs/State'
+import { getTrades, loginWithSavedAccount, ShiftState } from '@libs/Firebase'
+import { currentOrganization, loadUser, shifts } from '@libs/State'
 import { calculateTrades } from '@libs/Trades'
 
 const router = createRouter({
-    history: createWebHistory(),
-    routes: [
-        { path: '/', component: Welcome },
-        { path: '/login', component: Login },
-        { path: '/register', component: Register },
-        { path: '/dashboard', component: Dashboard },
-        { path: '/trades', component: Trades },
-        { path: '/calendar', component: Calendar },
-        { path: '/admin', component: Admin },
-        { path: '/account', component: Account },
-    ],
+	history: createWebHistory(),
+	routes: [
+		{ path: '/', component: Welcome },
+		{ path: '/login', component: Login },
+		{ path: '/register', component: Register },
+		{ path: '/dashboard', component: Dashboard },
+		{ path: '/trades', component: Trades },
+		{ path: '/calendar', component: Calendar },
+		{ path: '/admin', component: Admin },
+		{ path: '/account', component: Account },
+	],
 })
 
 try {
-    await loginWithSavedAccount()
-    await loadUser()
+	await loginWithSavedAccount()
+	await loadUser()
 } catch {}
 
-const trades = await getTrades(currentOrganization.value!)
-console.log(calculateTrades(trades))
+console.log(
+	calculateTrades([
+		{
+			account: 'a',
+			day: new Date('Jan 1, 2024'),
+			id: '1',
+			time: 'day',
+			organization: {
+				id: 'A',
+				name: 'Org',
+				owner: 'a',
+			},
+			state: ShiftState.Droppable,
+		},
+		{
+			account: 'a',
+			day: new Date('Jan 1, 2024'),
+			id: '1',
+			time: 'night',
+			organization: {
+				id: 'A',
+				name: 'Org',
+				owner: 'a',
+			},
+			state: ShiftState.Wanted,
+		},
+		{
+			account: 'b',
+			day: new Date('Jan 1, 2024'),
+			id: '1',
+			time: 'day',
+			organization: {
+				id: 'A',
+				name: 'Org',
+				owner: 'a',
+			},
+			state: ShiftState.Wanted,
+		},
+		{
+			account: 'b',
+			day: new Date('Jan 1, 2024'),
+			id: '1',
+			time: 'night',
+			organization: {
+				id: 'A',
+				name: 'Org',
+				owner: 'a',
+			},
+			state: ShiftState.Droppable,
+		},
+	])
+)
 
 // createApp(App).use(router).mount('#app')
