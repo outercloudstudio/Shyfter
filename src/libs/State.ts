@@ -1,6 +1,5 @@
 import { ref, Ref, watch } from 'vue'
 import {
-	createUser,
 	getMember,
 	getShifts,
 	getUser,

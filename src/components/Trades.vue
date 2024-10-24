@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import Card from './Card.vue'
 
-import { computed, ComputedRef, onMounted, ref, Ref, toRaw, watch } from 'vue'
+import { computed, ComputedRef, onMounted, ref, Ref, watch } from 'vue'
 import { calculateTrades } from '@/libs/Trades'
 import { currentOrganization, shifts, updateShifts, user } from '@/libs/State'
 import {
 	changeShiftAccount,
 	deleteShift,
-	getMember,
 	getShift,
 	getShiftTimeUniqueId,
 	getUser,

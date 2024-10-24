@@ -3,29 +3,26 @@ import '@/style.css'
 import App from '@/App.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import '@libs/Firebase'
-import Account from '@pages/Account.vue'
-import Admin from '@pages/Admin.vue'
-import Calendar from '@pages/Calendar.vue'
+// import Account from '@pages/Account.vue'
+// import Admin from '@pages/Admin.vue'
+// import Calendar from '@pages/Calendar.vue'
 import Dashboard from '@pages/Dashboard.vue'
 import Login from '@pages/Login.vue'
 import Register from '@pages/Register.vue'
-import Trades from '@pages/Trades.vue'
+// import Trades from '@pages/Trades.vue'
 import Welcome from '@pages/Welcome.vue'
-import { getTrades, loginWithSavedAccount, ShiftState } from '@libs/Firebase'
-import { currentOrganization, loadUser, shifts } from '@libs/State'
-import { calculateTrades } from '@libs/Trades'
 
 const router = createRouter({
-	history: createWebHistory(),
+	history: createWebHistory('shyft'),
 	routes: [
 		{ path: '/', component: Welcome },
 		{ path: '/login', component: Login },
 		{ path: '/register', component: Register },
 		{ path: '/dashboard', component: Dashboard },
-		{ path: '/trades', component: Trades },
-		{ path: '/calendar', component: Calendar },
-		{ path: '/admin', component: Admin },
-		{ path: '/account', component: Account },
+		// { path: '/trades', component: Trades },
+		// { path: '/calendar', component: Calendar },
+		// { path: '/admin', component: Admin },
+		// { path: '/account', component: Account },
 	],
 })
 

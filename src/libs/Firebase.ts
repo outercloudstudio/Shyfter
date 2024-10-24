@@ -14,7 +14,6 @@ import {
 	getDoc,
 	getDocs,
 	getFirestore,
-	or,
 	query,
 	updateDoc,
 	where,
