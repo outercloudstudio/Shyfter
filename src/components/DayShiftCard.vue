@@ -3,6 +3,7 @@ import Card from './Card.vue'
 import Icon from './Icon.vue'
 
 import {
+	changeShiftState,
 	createShift,
 	dateToDay,
 	Day,
@@ -72,6 +73,15 @@ function remove(shift: Shift) {
 
 	updateShifts()
 }
+
+function changeState(shift: Shift, newState: ShiftState) {
+	if (!currentOrganization.value) return
+	if (!user.value) return
+
+	changeShiftState(shift, newState)
+
+	updateShifts()
+}
 </script>
 <template>
 	<Card
@@ -105,6 +115,12 @@ function remove(shift: Shift) {
 					v-if="dayShift.state !== ShiftState.Wanted"
 					:icon="dayShift.state === ShiftState.Droppable ? 'lock_open' : 'lock'"
 					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="
+						changeState(
+							dayShift,
+							dayShift.state === ShiftState.Droppable ? ShiftState.None : ShiftState.Droppable
+						)
+					"
 				/>
 				<Icon
 					icon="delete"
@@ -145,6 +161,12 @@ function remove(shift: Shift) {
 					v-if="nightShift.state !== ShiftState.Wanted"
 					:icon="nightShift.state === ShiftState.Droppable ? 'lock_open' : 'lock'"
 					class="text-inherit hover:scale-110 transition-[transform] duration-150 ease-in-out"
+					@click="
+						changeState(
+							nightShift,
+							nightShift.state === ShiftState.Droppable ? ShiftState.None : ShiftState.Droppable
+						)
+					"
 				/>
 				<Icon
 					icon="delete"
