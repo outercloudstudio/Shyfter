@@ -48,7 +48,7 @@ async function updateTradeData() {
 					['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][
 						giveShift.day.month
 					]
-				} S ${giveShift.day.day}`,
+				} ${giveShift.day.day}`,
 				takeTime: `${takeShift.time.charAt(0).toUpperCase() + takeShift.time.slice(1)} Shift on ${
 					['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][
 						takeShift.day.month
