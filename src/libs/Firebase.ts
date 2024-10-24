@@ -37,7 +37,7 @@ let auth: Auth | null = null
 
 export let loggedIn = false
 
-export async function register(email: string, password: string) {
+export async function register(email: string, password: string, name: string) {
 	const currentAuth = getAuth()
 
 	await createUserWithEmailAndPassword(currentAuth, email, password)
@@ -48,6 +48,11 @@ export async function register(email: string, password: string) {
 
 	auth = currentAuth
 	loggedIn = true
+
+	if (!auth.currentUser?.uid) return
+
+	await createUser(name)
+	await addMember((await getOrganization('9LVSYhMx7SLP06DNEUKf'))!, auth.currentUser.uid, 'member')
 }
 
 export async function login(email: string, password: string) {
@@ -159,6 +164,17 @@ export async function getUser(accountId?: string): Promise<User> {
 	data.id = userDocs.docs[0].id
 
 	return data
+}
+
+export async function createUser(name: string) {
+	if (!loggedIn) throw new Error('Not logged in!')
+	if (!auth) throw new Error('Not authenticated!')
+	if (!auth.currentUser?.uid) throw new Error('No current user uid!')
+
+	await addDoc(collection(db, 'users'), {
+		name,
+		account: auth.currentUser.uid,
+	})
 }
 
 export async function changeUserName(user: User, name: string) {

@@ -11,31 +11,35 @@ const router = useRouter()
 
 const email = ref('')
 const password = ref('')
+const name = ref('')
 
 async function onRegister() {
-    await register(email.value, password.value)
+	await register(email.value, password.value, name.value)
 	await loadUser()
 
-    router.push('dashboard')
+	router.push('dashboard')
 }
 </script>
 
 <template>
-    <div class="w-full h-full flex justify-center items-center flex-col">
-        <BackArrow to="/" />
+	<div class="w-full h-full flex justify-center items-center flex-col">
+		<BackArrow to="/" />
 
 		<h1 class="bold mb-8">Register</h1>
 
-		<Card title="Login" icon="deployed_code" :bold="true" >
+		<Card title="Login" icon="deployed_code" :bold="true">
+			<p>Name</p>
+			<input v-model="name" class="mb-2" placeholder="Name..." />
+
 			<p>Email</p>
-			<input v-model="email" class="mb-2" placeholder="Email..."/>
+			<input v-model="email" class="mb-2" placeholder="Email..." />
 
 			<p>Password</p>
-			<input v-model="password" class="mb-4" placeholder="Pasword..." type="password"/>
-			
+			<input v-model="password" class="mb-4" placeholder="Pasword..." type="password" />
+
 			<div class="flex items-center justify-between">
 				<router-link to="login" class="link">Have An Account?</router-link>
-				
+
 				<button @click="onRegister" class="element">Register</button>
 			</div>
 		</Card>

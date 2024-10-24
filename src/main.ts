@@ -29,10 +29,10 @@ const router = createRouter({
 	],
 })
 
-try {
-	await loginWithSavedAccount()
-	await loadUser()
-} catch {}
+// try {
+// 	await loginWithSavedAccount()
+// 	await loadUser()
+// } catch {}
 
 // console.log(
 // 	calculateTrades([

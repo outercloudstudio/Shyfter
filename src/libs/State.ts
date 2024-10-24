@@ -1,5 +1,6 @@
 import { ref, Ref, watch } from 'vue'
 import {
+	createUser,
 	getMember,
 	getShifts,
 	getUser,
@@ -39,6 +40,7 @@ export async function updateShifts() {
 
 export async function loadUser() {
 	user.value = await getUser()
+
 	organizations.value = await getUserOrganizations()
 
 	if (organizations.value.length > 0) currentOrganization.value = organizations.value[0]

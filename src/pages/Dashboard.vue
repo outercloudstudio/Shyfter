@@ -2,6 +2,15 @@
 import NavigationMenu from '@/components/NavigationMenu.vue'
 import DashboardCalendar from '@/components/DashboardCalendar.vue'
 import Trades from '@/components/Trades.vue'
+import { onMounted } from 'vue'
+import { loggedIn } from '@/libs/Firebase'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+onMounted(() => {
+	if (!loggedIn) router.push('/')
+})
 </script>
 
 <template>
